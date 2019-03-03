@@ -39,8 +39,11 @@ srteditor.prototype.createToolbar = function() {
 srteditor.prototype.registerPlugin = function(p) {
     var self = this;
     var plugin = p();
-    var btn = $("<div>");
-    btn.html(plugin.id);
+    var btn = $("<span>");
+    var icon = $("<i>")
+    icon.addClass("fas")
+    icon.addClass(plugin.icon)
+    btn.append(icon)
     btn.attr("id", plugin.cmd);
     btn.height(24);
     btn.width(24);
@@ -52,22 +55,21 @@ srteditor.prototype.registerPlugin = function(p) {
     this.toolbar.append(btn);
 };
 
-function plugin(id, cmd, args, img) {
+function plugin(id, cmd, args, icon) {
     this.id = id;
     this.cmd = cmd;
     this.args = args;
-    this.img = img;
+    this.icon = icon;
 }
 
 function bold() {
-    var bold = new plugin("B", "bold", null, null);
-    return bold;
+    return new plugin("B", "bold", null, "fa-bold");
 }
 
 function italic() {
-    return new plugin("I", "italic", null, null);
+    return new plugin("I", "italic", null, "fa-italic");
 }
 
 function underline() {
-    return new plugin("U", "underline", null, null);
+    return new plugin("U", "underline", null, "fa-underline");
 }

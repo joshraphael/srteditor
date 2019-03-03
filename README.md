@@ -8,6 +8,7 @@ Creates a text box that can be used to render rich text and export as html.
 
 This project uses the following packages:
 * [jQuery](http://jquery.com) -- Easy JavaScript selectors
+* [Font Awesome](https://fontawesome.com) -- CSS icons
 
 
 Add an `iframe` to your html and create a selector to load the srteditor when the document is read
@@ -16,15 +17,17 @@ Add an `iframe` to your html and create a selector to load the srteditor when th
 <!doctype html>
 <html lang="en">
   <head>
+    <meta charset="utf-8"></meta>
     <title>
       SRTEditor Example
     </title>
-    <script src="jquery-3.3.1.min.js"></script>
-    <script src="srteditor.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="srteditor.min.js"></script>
     <script>
       $(document).ready(function () {
         $("#srteditor").srteditor();
-    });
+      });
     </script>
   </head>
   <body>
