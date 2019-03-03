@@ -1,0 +1,10 @@
+#!/bin/bash
+eslint srteditor.js
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+uglifyjs srteditor.js > srteditor.min.js
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+git add srteditor.min.js

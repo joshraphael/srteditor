@@ -19,7 +19,10 @@ Add an `iframe` to your html and create a selector to load the srteditor when th
     </title>
     <script src="jquery-3.3.1.min.js"></script>
     <script src="srteditor.js"></script>
-    <script> $(document).ready(function () { $("#srteditor").srteditor(); });
+    <script>
+      $(document).ready(function () {
+        $("#srteditor").srteditor();
+    });
     </script>
   </head>
   <body>

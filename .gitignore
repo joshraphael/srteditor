@@ -3,3 +3,4 @@ package.json
 package-lock.json
 .eslintrc.yml
 .eslintrc.js
+.SETUP
