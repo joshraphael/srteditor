@@ -2,6 +2,8 @@
 
 **S**imple **R**ich **T**ext editor
 
+[![Pipeline status](https://gitlab.com/joshraphael/srteditor/badges/master/pipeline.svg)](https://gitlab.com/joshraphael/srteditor/commits/master)
+
 Creates a text box that can be used to render rich text and export as html.
 
 This project uses the following packages:
