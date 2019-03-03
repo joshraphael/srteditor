@@ -1,10 +1,16 @@
 # srteditor
 
-Simple Rich Text editor
+**S**imple **R**ich **T**ext editor
+
+Creates a text box that can be used to render rich text and export as html.
+
+This project uses the following packages:
+* [jQuery](http://jquery.com) -- Easy JavaScript selectors
+
 
 Add an `iframe` to your html and create a selector to load the srteditor when the document is read
 
-```js
+```html
 <!doctype html>
 <html lang="en">
   <head>
