@@ -35,3 +35,14 @@ Add an `iframe` to your html and create a selector to load the srteditor when th
   </body>
 </html>
 ```
+
+# Tools
+
+If you want to run the dev tools to help commits you can install [NPM](https://www.npmjs.com) and run 
+```sh
+bash setup-dev.sh
+```
+
+These tools help:
+- minify
+- lint

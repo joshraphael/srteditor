@@ -4,3 +4,4 @@ package-lock.json
 .eslintrc.yml
 .eslintrc.js
 .SETUP
+/minify_test

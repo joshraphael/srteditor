@@ -1,10 +1,28 @@
 #!/bin/bash
+if [ ! -f ".SETUP" ]; then
+    npm install -g eslint
+    if [ $? -ne 0 ]; then
+        echo "could not install eslint globally, try using sudo"
+        exit 1
+    fi
+    npm install -g uglify-js
+    if [ $? -ne 0 ]; then
+        echo "could not install uglify-js globally, try using sudo"
+        exit 1
+    fi
+fi
 eslint srteditor.js
 if [ $? -ne 0 ]; then
+    echo "could not lint srteditor.js"
     exit 1
 fi
 uglifyjs srteditor.js > srteditor.min.js
 if [ $? -ne 0 ]; then
+    echo "could not minify srteditor.js"
     exit 1
 fi
 git add srteditor.min.js
+if [ $? -ne 0 ]; then
+    echo "could not add newly minified file"
+    exit 1
+fi

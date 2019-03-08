@@ -1,10 +1,14 @@
 image: node:latest
 
 stages:
-  - lint
+  - test
 
-eslint:
-  stage: lint
+lint:
+  stage: test
   script:
-    - npm install -g eslint
-    - eslint srteditor.js
+    - bash lint.sh
+
+minify:
+  stage: test
+  script:
+    - bash minify.sh
