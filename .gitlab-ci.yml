@@ -1,14 +1,23 @@
-image: node:latest
-
 stages:
   - test
+  - mirror
 
 lint:
+  image: node:latest
   stage: test
   script:
     - bash lint.sh
 
 minify:
+  image: node:latest
   stage: test
   script:
     - bash minify.sh
+
+github:
+  image: debian:stable
+  stage: mirror
+  only:
+    - master
+  script:
+    - bash github.sh
