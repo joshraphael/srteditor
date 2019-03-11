@@ -6,13 +6,13 @@ lint:
   image: node:latest
   stage: test
   script:
-    - bash lint.sh
+    - bash scripts/lint.sh
 
 minify:
   image: node:latest
   stage: test
   script:
-    - bash minify.sh
+    - bash scripts/minify.sh
 
 github:
   image: debian:stable
@@ -20,4 +20,4 @@ github:
   only:
     - master
   script:
-    - bash github.sh
+    - bash scripts/github.sh
