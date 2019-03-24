@@ -1,28 +1,45 @@
 #!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $DIR/setup.sh
+if [ $? -ne 0 ]; then
+    ERROR='\033[0;31m'
+    DEFAULT='\033[0m'
+    echo -e "${ERROR}Error: Sourcing setup script${DEFAULT}"
+    exit 1
+fi
+success "Sourced setup script"
 if [ ! -f ".SETUP" ]; then
     npm install -g eslint
     if [ $? -ne 0 ]; then
-        echo "could not install eslint globally, try using sudo"
-        exit 1
+        error "Could not install ESLint"
     fi
+    success "Installed ESLint"
     npm install -g uglify-js
     if [ $? -ne 0 ]; then
-        echo "could not install uglify-js globally, try using sudo"
-        exit 1
+        error "Could not install uglify-js"
     fi
+    success "Installed uglify-js"
+else
+    success "Setup hook(s) already exist"
 fi
+if [ ! -f srteditor.js ]; then
+    error "srteditor.js does not exist"
+fi
+success "srteditor.js exists"
 eslint srteditor.js
 if [ $? -ne 0 ]; then
-    echo "could not lint srteditor.js"
-    exit 1
+    error "Could not lint srteditor.js"
 fi
 uglifyjs srteditor.js > srteditor.min.js
 if [ $? -ne 0 ]; then
-    echo "could not minify srteditor.js"
-    exit 1
+    error "Could not minify srteditor.js"
 fi
+if [ ! -f srteditor.min.js ]; then
+    error "srteditor.min.js does not exist"
+fi
+success "srteditor.min.js exists"
 git add srteditor.min.js
 if [ $? -ne 0 ]; then
-    echo "could not add newly minified file"
-    exit 1
+    error "Could not add newly minified file"
 fi
+success "Added new minified file"
