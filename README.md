@@ -46,3 +46,7 @@ bash setup-dev.sh
 These tools help:
 - minify
 - lint
+
+Official repositories:
+* [gitlab](https://gitlab.com/joshraphael/srteditor)
+* [github](https://github.com/joshraphael/srteditor)
