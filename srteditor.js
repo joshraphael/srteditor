@@ -15,6 +15,7 @@ function srteditor(area) {
         bold,
         italic,
         underline,
+        orderedList,
         unorderedList
     ];
     this.plugins = {};
@@ -77,4 +78,8 @@ function underline() {
 
 function unorderedList() {
     return new plugin("UL", "InsertUnorderedList", "newUL", "fa-list-ul")
+}
+
+function orderedList() {
+    return new plugin("OL", "InsertOrderedList", "newOL", "fa-list-ol")
 }

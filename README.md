@@ -48,5 +48,6 @@ These tools help:
 - lint
 
 Official repositories:
-* [gitlab](https://gitlab.com/joshraphael/srteditor)
-* [github](https://github.com/joshraphael/srteditor)
+* [srteditor.com](https://srteditor.com)
+* [gitlab.com](https://gitlab.com/joshraphael/srteditor)
+* [github.com](https://github.com/joshraphael/srteditor)
