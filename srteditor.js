@@ -51,7 +51,7 @@ srteditor.prototype.registerPlugin = function(p) {
     var plugin = p();
     var btn = $("<span>");
     var icon = $("<i>");
-    icon.addClass("fas");
+    icon.addClass("fa");
     icon.addClass(plugin.icon);
     btn.append(icon);
     btn.attr("id", plugin.id);

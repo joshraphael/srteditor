@@ -1,6 +1,7 @@
 stages:
   - test
   - mirror
+  - deploy
 
 lint:
   image: node:latest
@@ -21,3 +22,17 @@ github:
     - master
   script:
     - bash scripts/github.sh
+
+pages:
+  image: ruby:2.3
+  stage: deploy
+  variables:
+    JEKYLL_ENV: production
+    LC_ALL: C.UTF-8
+  script:
+    - bash startup.sh --deploy
+  artifacts:
+    paths:
+      - public
+  only:
+    - master

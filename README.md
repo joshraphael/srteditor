@@ -22,7 +22,7 @@ Add an `iframe` to your html and create a selector to load the srteditor when th
       SRTEditor Example
     </title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="srteditor.min.js"></script>
     <script>
       $(document).ready(function () {
