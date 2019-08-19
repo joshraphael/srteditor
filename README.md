@@ -11,7 +11,7 @@ This project uses the following packages:
 * [Font Awesome](https://fontawesome.com) -- CSS icons
 
 
-Add an `iframe` to your html and create a selector to load the srteditor when the document is read
+Add an `iframe` to your html and create a selector to load the srteditor when the document is read. Each srteditor can take an optional callback function for a submit button action, and is given the document inside of the event data var `event.data.doc`.
 
 ```html
 <!doctype html>
@@ -26,7 +26,9 @@ Add an `iframe` to your html and create a selector to load the srteditor when th
     <script src="srteditor.min.js"></script>
     <script>
       $(document).ready(function () {
-        $("#srteditor").srteditor();
+        $("#srteditor").srteditor(function(e) {
+          console.log(e.data.doc.body.innerHTML)
+        });
       });
     </script>
   </head>

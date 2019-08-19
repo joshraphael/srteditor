@@ -1,16 +1,16 @@
 $(function() {
     var SRTEditors = [];
-    $.fn.srteditor = function() {
+    $.fn.srteditor = function(submitFn) {
         this.each(function(i, e) {
             if( $(e).is("iframe") ) {
-                var editor = new srteditor(e);
+                var editor = new srteditor(e, submitFn);
                 SRTEditors.push(editor);
             }
         });
     };
 });
 
-function srteditor(area) {
+function srteditor(area, submitFn) {
     this.pluginIds = [
         this.bold,
         this.italic,
@@ -21,11 +21,13 @@ function srteditor(area) {
     ];
     this.plugins = {};
     this.area = $(area);
+    this.submitFn = submitFn
     this.id = this.area.attr("id");
     this.area.width("100%");
     this.area[0].contentDocument.designMode = "on";
     this.createToolbar();
     this.createSourceBox();
+    this.createSubmitButton();
 }
 
 srteditor.prototype.createToolbar = function() {
@@ -45,6 +47,18 @@ srteditor.prototype.createSourceBox = function() {
     this.source.insertAfter(this.area);
     this.source.toggle();
 };
+
+srteditor.prototype.createSubmitButton = function() {
+    if(this.submitFn && this.submitFn instanceof Function) {
+        var self = this;
+        this.submitBtn = $("<button>")
+        this.submitBtn.html("Submit")
+        this.submitBtn.insertAfter(this.area)
+        this.submitBtn.on("click", {
+            doc: self.area[0].contentDocument
+        }, this.submitFn)
+    }
+}
 
 srteditor.prototype.registerPlugin = function(p) {
     var self = this;
@@ -124,6 +138,9 @@ function toggleSourceCode(e) {
     self.source.toggle();
     self.source.text(self.area[0].contentDocument.body.innerHTML);
     disablePlugins(self.plugins);
+    if(self.submitBtn) {
+        self.submitBtn.toggle()
+    }
 }
 
 function disablePlugins(plugins) {

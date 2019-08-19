@@ -12,7 +12,6 @@ cp $DIR/srteditor.min.js $WEBSITE_JS
 if [[ $1 == "--deploy" ]]; then
     bundle install
     bundle exec jekyll build -d $DIR/public
-    #cp -r public $DIR
 else
     bundle exec jekyll serve
 fi

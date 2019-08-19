@@ -10,7 +10,9 @@
     <script src="static/js/srteditor.min.js"></script>
     <script>
       $(document).ready(function () {
-        $("#srteditor").srteditor();
+        $("#srteditor").srteditor(function(e) {
+          console.log(e.data.doc.body.innerHTML)
+        });
       });
     </script>
   </head>
