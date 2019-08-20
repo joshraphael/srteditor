@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% assign page_css = page.css | join: " " | flatten %}
+    {% assign page_js = page.js | join: " " | flatten %}
+    {% include header.html project=site.project css=page_css js=page_js title=page.title %}
+  </head>
+  <body>
+    {% include navigation.html %}
+    {{ content }}
+  </body>
+</html>

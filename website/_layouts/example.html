@@ -1,0 +1,16 @@
+---
+layout: default
+---
+<script>
+  $(document).ready(function () {
+    $("#srteditor").srteditor(function(e) {
+      $("#srteditor-code-submit").text(e.data.doc.body.innerHTML)
+    });
+  });
+</script>
+<iframe id="srteditor">
+</iframe>
+<br>
+<br>
+<code id="srteditor-code-submit">
+</code>

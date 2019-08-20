@@ -1,8 +1,16 @@
+title: "srteditor"
+project: "srteditor"
 sass:
   style: "compressed"
   load_paths:
     - "_sass"
     - "_sass/vendor"
     - "_sass/vendor/fontawesome-4.7.0"
+
+vendors:
+  js:
+    jquery: "jquery-3.3.1/jquery-3.3.1.min"
+  css:
+    fontawesome: "fontawesome-4.7.0/fontawesome-4.7.0.min"
 
 exclude: ["Gemfile", "Gemfile.lock"]

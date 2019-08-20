@@ -1,0 +1,93 @@
+{%- if include.header == true -%}
+  <script id="loader">
+  Loader = {};
+{%- else -%}
+function Loader() {
+    this.init();
+}
+{% endif %}
+Loader.{%- if include.header == false -%}prototype.{%- endif -%}init = function() {
+    var pathArray = this.removeBlanks( window.location.pathname.split( '/' ) );
+    this.prefix = '';
+    if( pathArray.length && pathArray[0] === '{{ include.project }}' ) {
+        this.prefix = '/{{ include.project }}';
+    };
+};
+
+Loader.{%- if include.header == false -%}prototype.{%- endif -%}removeBlanks = function( arr ) {
+    var ret = [];
+    for( var i = 0; i < arr.length; i++ ) {
+        if( arr[i] ) {
+            ret.push( arr[i] );
+        };
+    };
+    return ret;
+};
+
+{%- if include.header == true -%}
+Loader.loadResources = function() {
+    this.loadFavicon();
+    {%- if include.css -%}
+    this.loadCss();
+    {%- endif %}
+    {%- if include.js -%}
+    this.loadJs();
+    {%- endif -%}
+};
+
+Loader.loadFavicon = function() {
+    document.write( '<link rel="shortcut icon" href="' + this.prefix + '/static/img/ico/favicon.ico"></link>' );
+};
+
+{%- if include.css -%}
+Loader.loadCss = function() {
+    var txt = '{{ include.css }}';
+    if( txt.length ) {
+        var files = txt.split( ' ' );
+        for( var i = 0; i < files.length; i++ ) {
+            document.write( '<link rel="stylesheet" type="text/css" href="' + this.prefix + '/static/css/' + files[i] + '.css"></link>' );
+        }
+    };
+};
+{% endif %}
+{%- if include.js -%}
+Loader.loadJs = function() {
+    var txt = '{{ include.js }}';
+    if( txt.length ) {
+        var files = '{{ include.js }}'.split( ' ' );
+        for( var i = 0; i < files.length; i++ ) {
+            document.write( '<script type="text/javascript" src="' + this.prefix + '/static/js/' + files[i] + '.js"><\/script>' );
+        }
+    }
+};
+{% endif %}
+Loader.init();
+Loader.loadResources();
+loaderJs = document.getElementById( 'loader' );
+loaderJs.parentElement.removeChild( loaderJs );
+delete window.Loader;
+delete window.loaderJs;
+{% endif %}
+{% if include.header == false %}
+Loader.prototype.fixResources = function() {
+    var self = this;
+    $( '.loader' ).each( function() {
+        $( this ).attr( $( this ).attr( 'data-attr' ),  self.prefix + $( this ).attr( 'data-url' ) );
+        $( this ).removeAttr( 'data-url' );
+        $( this ).removeAttr( 'data-attr' );
+        if( this.classList.length === 1 ) {
+            $( this ).removeAttr( 'class' );
+        } else {
+            $( this ).removeClass( 'loader' );
+        };
+    } );
+};
+
+$( document ).ready( function() {
+    var loader = new Loader();
+    loader.fixResources();
+} );
+{% endif %}
+{%- if include.header -%}
+  </script>
+{%- endif -%}
