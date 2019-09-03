@@ -17,6 +17,7 @@ function srteditor(area, submitFn) {
         this.underline,
         this.orderedList,
         this.unorderedList,
+        this.colorText,
         this.source
     ];
     this.plugins = {};
@@ -77,52 +78,91 @@ srteditor.prototype.registerPlugin = function(p) {
     }, plugin.cmd);
     this.plugins[plugin.id] = plugin;
     this.toolbar.append(btn);
+    if(plugin.html != null) {
+        for(var component in plugin.html) {
+            var comp = plugin.html[component]
+            var html = $(comp.html)
+            html.attr("id", self.id + "-" + plugin.id + "-html")
+            if(comp.events != null) {
+                for(var event in comp.events) {
+                    html.on(event, {
+                        src: self,
+                        args: plugin.args
+                    }, comp.events[event])
+                }
+            }
+            this.toolbar.append(html)
+        }
+    } 
 };
 
 srteditor.prototype.bold = function() {
     return new plugin("B", "fa-bold", style, {
         cmd: "bold",
         arg1: null
-    }, true);
+    }, null, true);
 };
 
 srteditor.prototype.italic = function() {
     return new plugin("I", "fa-italic", style, {
         cmd: "italic",
         arg1: null
-    }, true);
+    }, null, true);
 };
 
 srteditor.prototype.underline = function() {
     return new plugin("U", "fa-underline", style, {
         cmd: "underline",
         arg1: null
-    }, true);
+    }, null, true);
 };
 
 srteditor.prototype.unorderedList = function() {
     return new plugin("UL", "fa-list-ul", style, {
-        cmd: "InsertUnorderedList",
+        cmd: "insertUnorderedList",
         arg1: "newUL"
-    }, true);
+    }, null, true);
 };
 
 srteditor.prototype.orderedList = function() {
     return new plugin("OL", "fa-list-ol", style, {
-        cmd: "InsertOrderedList",
+        cmd: "insertOrderedList",
         arg1: "newOL"
+    }, null, true);
+};
+
+srteditor.prototype.colorText = function() {
+    var id = "C"
+    return new plugin(id, "fa-paint-brush", color, {
+        id: id,
+        cmd: "foreColor",
+    }, {
+        colorPallette: {
+            html: '<input type="color" style="display:none"/>',
+            events: {
+                "change": function(e) {
+                    var self = e.data.src;
+                    var args = e.data.args;
+                    var color = $(e.target).val()
+                    $("#" + id).first("i").css("color", color)
+                    $("#" + id).attr("data-color", color)
+                    self.area[0].contentDocument.execCommand(args.cmd, false, color);
+                }
+            }
+        }
     }, true);
 };
 
 srteditor.prototype.source = function() {
-    return new plugin("S", "fa-code", toggleSourceCode, null, false);
+    return new plugin("S", "fa-code", toggleSourceCode, null, null, false);
 };
 
-function plugin(id, icon, cmd, args, disable) {
+function plugin(id, icon, cmd, args, html, disable) {
     this.id = id;
     this.icon = icon;
     this.cmd = cmd;
     this.args = args;
+    this.html = html;
     this.disable = disable;
 }
 
@@ -130,6 +170,13 @@ function style(e) {
     var self = e.data.src;
     var args = e.data.args;
     self.area[0].contentDocument.execCommand(args.cmd, false, args.arg1);
+}
+
+function color(e) {
+    var self = e.data.src;
+    var args = e.data.args;
+    $("#" + self.id + "-" + args.id + "-html").trigger("click")
+    self.area[0].contentDocument.execCommand(args.cmd, false, $("#" + self.id + "-" + args.id + "-html").val())
 }
 
 function toggleSourceCode(e) {
