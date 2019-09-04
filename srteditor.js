@@ -18,6 +18,7 @@ function srteditor(area, submitFn) {
         this.orderedList,
         this.unorderedList,
         this.colorText,
+        this.highlightText,
         this.source
     ];
     this.plugins = {};
@@ -152,6 +153,28 @@ srteditor.prototype.colorText = function() {
         }
     }, true);
 };
+
+srteditor.prototype.highlightText = function() {
+    var id = "H"
+    return new plugin(id, "fa-pencil", color, {
+        id: id,
+        cmd: "hiliteColor",
+    }, {
+        colorPallette: {
+            html: '<input type="color" style="display:none"/>',
+            events: {
+                "change": function(e) {
+                    var self = e.data.src;
+                    var args = e.data.args;
+                    var color = $(e.target).val()
+                    $("#" + id).first("i").css("color", color)
+                    $("#" + id).attr("data-color", color)
+                    self.area[0].contentDocument.execCommand(args.cmd, false, color);
+                }
+            }
+        }
+    }, true);
+}
 
 srteditor.prototype.source = function() {
     return new plugin("S", "fa-code", toggleSourceCode, null, null, false);
