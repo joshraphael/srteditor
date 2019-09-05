@@ -156,7 +156,7 @@ srteditor.prototype.colorText = function() {
 
 srteditor.prototype.highlightText = function() {
     var id = "H"
-    return new plugin(id, "fa-pencil", color, {
+    return new plugin(id, "fa-highlighter", color, {
         id: id,
         cmd: "hiliteColor",
     }, {

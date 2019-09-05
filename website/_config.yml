@@ -6,11 +6,12 @@ sass:
     - "_sass"
     - "_sass/vendor"
     - "_sass/vendor/fontawesome-4.7.0"
+    - "_sass/vendor/fontawesome-5.10.2"
 
 vendors:
   js:
     jquery: "jquery-3.3.1/jquery-3.3.1.min"
   css:
-    fontawesome: "fontawesome-4.7.0/fontawesome-4.7.0.min"
+    fontawesome: "fontawesome-5.10.2/fontawesome-5.10.2.min"
 
 exclude: ["Gemfile", "Gemfile.lock"]

@@ -5,16 +5,16 @@
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
 
-@import "variables";
-@import "mixins";
-@import "path";
-@import "core";
-@import "larger";
-@import "fixed-width";
-@import "list";
-@import "bordered-pulled";
-@import "animated";
-@import "rotated-flipped";
-@import "stacked";
-@import "icons";
-@import "screen-reader";
+@import "vendor/fontawesome-4.7.0/_variables.scss";
+@import "vendor/fontawesome-4.7.0/_mixins.scss";
+@import "vendor/fontawesome-4.7.0/_path.scss";
+@import "vendor/fontawesome-4.7.0/_core.scss";
+@import "vendor/fontawesome-4.7.0/_larger.scss";
+@import "vendor/fontawesome-4.7.0/_fixed-width.scss";
+@import "vendor/fontawesome-4.7.0/_list.scss";
+@import "vendor/fontawesome-4.7.0/_bordered-pulled.scss";
+@import "vendor/fontawesome-4.7.0/_animated.scss";
+@import "vendor/fontawesome-4.7.0/_rotated-flipped.scss";
+@import "vendor/fontawesome-4.7.0/_stacked.scss";
+@import "vendor/fontawesome-4.7.0/_icons.scss";
+@import "vendor/fontawesome-4.7.0/_screen-reader.scss";
