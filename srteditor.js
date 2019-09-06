@@ -26,6 +26,7 @@ function srteditor(area, submitFn) {
         this.fontSize,
         this.leftJustify,
         this.centerJustify,
+        this.rightJustify,
         this.source
     ];
     this.plugins = {};
@@ -294,6 +295,13 @@ srteditor.prototype.leftJustify = function() {
 srteditor.prototype.centerJustify = function() {
     return new plugin("center-justify", "fa-align-center", exec, {
         cmd: "justifyCenter",
+        arg1: null
+    }, null, true);
+};
+
+srteditor.prototype.rightJustify = function() {
+    return new plugin("right-justify", "fa-align-right", exec, {
+        cmd: "justifyRight",
         arg1: null
     }, null, true);
 };
