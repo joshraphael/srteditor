@@ -17,6 +17,7 @@ function srteditor(area, submitFn) {
         this.underline,
         this.strikeThrough,
         this.superscript,
+        this.subscript,
         this.orderedList,
         this.unorderedList,
         this.colorText,
@@ -138,6 +139,14 @@ srteditor.prototype.superscript = function() {
     var id = "superscript"
     return new plugin(id, "fa-superscript", exec, {
         cmd: "superscript",
+        arg1: null
+    }, null, true);
+};
+
+srteditor.prototype.subscript = function() {
+    var id = "subscript"
+    return new plugin(id, "fa-subscript", exec, {
+        cmd: "subscript",
         arg1: null
     }, null, true);
 };
