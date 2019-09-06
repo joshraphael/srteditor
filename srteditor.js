@@ -23,6 +23,7 @@ function srteditor(area, submitFn) {
         this.colorText,
         this.highlightText,
         this.font,
+        this.fontSize,
         this.source
     ];
     this.plugins = {};
@@ -226,17 +227,46 @@ srteditor.prototype.highlightText = function() {
 srteditor.prototype.font = function() {
     var id = "font"
     var list = fontList()
-    return new plugin(id, "fa-font", font, {
+    return new plugin(id, "fa-font", value, {
         id: id,
         cmd: "fontName"
     }, {
-        font: {
+        value: {
             html: '<select>' + list + '</select>',
             events: {
                 "change": function(e) {
                     var self = e.data.src;
                     var args = e.data.args;
-                    var font = $("#" + id + "-font").val();
+                    var font = $("#" + id + "-value").val();
+                    exec({
+                        data: {
+                            src: self,
+                            args: {
+                                cmd: args.cmd,
+                                arg1: font
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    }, true);
+};
+
+srteditor.prototype.fontSize = function() {
+    var id = "font-size"
+    var list = fontSizeList()
+    return new plugin(id, "fa-text-height", value, {
+        id: id,
+        cmd: "fontSize"
+    }, {
+        value: {
+            html: '<select>' + list + '</select>',
+            events: {
+                "change": function(e) {
+                    var self = e.data.src;
+                    var args = e.data.args;
+                    var font = $("#" + id + "-value").val();
                     exec({
                         data: {
                             src: self,
@@ -287,16 +317,16 @@ function color(e) {
     });
 }
 
-function font(e) {
+function value(e) {
     var self = e.data.src;
     var args = e.data.args;
-    var font = $("#" + args.id + "-font").val();
+    var val = $("#" + args.id + "-value").val();
     exec({
         data: {
             src: self,
             args: {
                 cmd: args.cmd,
-                arg1: font
+                arg1: val
             }
         }
     });
@@ -335,4 +365,22 @@ function fontList() {
         list = list + '<option value="' + font + '">' + font + '</option>';
     }
     return list;
+}
+
+function fontSizeList() {
+    var sizes = [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+    ];
+    var list = "";
+    for(var i in sizes) {
+        var size = sizes[i];
+        list = list + '<option value="' + size + '">' + size + '</option>';
+    }
+    return list
 }
