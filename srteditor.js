@@ -16,6 +16,7 @@ function srteditor(area, submitFn) {
         this.italic,
         this.underline,
         this.strikeThrough,
+        this.superscript,
         this.orderedList,
         this.unorderedList,
         this.colorText,
@@ -129,6 +130,14 @@ srteditor.prototype.underline = function() {
 srteditor.prototype.strikeThrough = function() {
     return new plugin("strike-through", "fa-strikethrough", exec, {
         cmd: "strikeThrough",
+        arg1: null
+    }, null, true);
+};
+
+srteditor.prototype.superscript = function() {
+    var id = "superscript"
+    return new plugin(id, "fa-superscript", exec, {
+        cmd: "superscript",
         arg1: null
     }, null, true);
 };
