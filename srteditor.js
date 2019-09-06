@@ -19,6 +19,7 @@ function srteditor(area, submitFn) {
         this.unorderedList,
         this.colorText,
         this.highlightText,
+        this.font,
         this.source
     ];
     this.plugins = {};
@@ -65,6 +66,8 @@ srteditor.prototype.createSubmitButton = function() {
 srteditor.prototype.registerPlugin = function(p) {
     var self = this;
     var plugin = p();
+    var container = $("<span style='padding-right:10px;'>");
+    container.attr("id", "plugin-" + plugin.id)
     var btn = $("<span>");
     var icon = $("<i>");
     icon.addClass("fa");
@@ -78,12 +81,15 @@ srteditor.prototype.registerPlugin = function(p) {
         args: plugin.args
     }, plugin.cmd);
     this.plugins[plugin.id] = plugin;
-    this.toolbar.append(btn);
+    container.append(btn);
     if(plugin.html != null) {
         for(var component in plugin.html) {
             var comp = plugin.html[component]
+            var block = $("<span>")
             var html = $(comp.html)
-            html.attr("id", self.id + "-" + plugin.id + "-html")
+            html.attr("id", plugin.id + "-" + component)
+            block.append(html)
+            block.attr("id", self.id + "-" + plugin.id + "-html")
             if(comp.events != null) {
                 for(var event in comp.events) {
                     html.on(event, {
@@ -92,41 +98,42 @@ srteditor.prototype.registerPlugin = function(p) {
                     }, comp.events[event])
                 }
             }
-            this.toolbar.append(html)
+            container.append(block)
         }
-    } 
+    }
+    this.toolbar.append(container);
 };
 
 srteditor.prototype.bold = function() {
-    return new plugin("B", "fa-bold", style, {
+    return new plugin("B", "fa-bold", exec, {
         cmd: "bold",
         arg1: null
     }, null, true);
 };
 
 srteditor.prototype.italic = function() {
-    return new plugin("I", "fa-italic", style, {
+    return new plugin("I", "fa-italic", exec, {
         cmd: "italic",
         arg1: null
     }, null, true);
 };
 
 srteditor.prototype.underline = function() {
-    return new plugin("U", "fa-underline", style, {
+    return new plugin("U", "fa-underline", exec, {
         cmd: "underline",
         arg1: null
     }, null, true);
 };
 
 srteditor.prototype.unorderedList = function() {
-    return new plugin("UL", "fa-list-ul", style, {
+    return new plugin("UL", "fa-list-ul", exec, {
         cmd: "insertUnorderedList",
         arg1: "newUL"
     }, null, true);
 };
 
 srteditor.prototype.orderedList = function() {
-    return new plugin("OL", "fa-list-ol", style, {
+    return new plugin("OL", "fa-list-ol", exec, {
         cmd: "insertOrderedList",
         arg1: "newOL"
     }, null, true);
@@ -138,7 +145,7 @@ srteditor.prototype.colorText = function() {
         id: id,
         cmd: "foreColor",
     }, {
-        colorPallette: {
+        color: {
             html: '<input type="color" style="display:none"/>',
             events: {
                 "change": function(e) {
@@ -146,8 +153,15 @@ srteditor.prototype.colorText = function() {
                     var args = e.data.args;
                     var color = $(e.target).val()
                     $("#" + id).first("i").css("color", color)
-                    $("#" + id).attr("data-color", color)
-                    self.area[0].contentDocument.execCommand(args.cmd, false, color);
+                    exec({
+                        data: {
+                            src: self,
+                            args: {
+                                cmd: args.cmd,
+                                arg1: color
+                            }
+                        }
+                    });
                 }
             }
         }
@@ -160,7 +174,7 @@ srteditor.prototype.highlightText = function() {
         id: id,
         cmd: "hiliteColor",
     }, {
-        colorPallette: {
+        color: {
             html: '<input type="color" style="display:none"/>',
             events: {
                 "change": function(e) {
@@ -168,13 +182,49 @@ srteditor.prototype.highlightText = function() {
                     var args = e.data.args;
                     var color = $(e.target).val()
                     $("#" + id).first("i").css("color", color)
-                    $("#" + id).attr("data-color", color)
-                    self.area[0].contentDocument.execCommand(args.cmd, false, color);
+                    exec({
+                        data: {
+                            src: self,
+                            args: {
+                                cmd: args.cmd,
+                                arg1: color
+                            }
+                        }
+                    });
                 }
             }
         }
     }, true);
-}
+};
+
+srteditor.prototype.font = function() {
+    var id = "F"
+    var list = fontList()
+    return new plugin(id, "fa-font", font, {
+        id: id,
+        cmd: "fontName"
+    }, {
+        font: {
+            html: '<select>' + list + '</select>',
+            events: {
+                "change": function(e) {
+                    var self = e.data.src;
+                    var args = e.data.args;
+                    var font = $("#" + id + "-font").val();
+                    exec({
+                        data: {
+                            src: self,
+                            args: {
+                                cmd: args.cmd,
+                                arg1: font
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    }, true);
+};
 
 srteditor.prototype.source = function() {
     return new plugin("S", "fa-code", toggleSourceCode, null, null, false);
@@ -189,7 +239,7 @@ function plugin(id, icon, cmd, args, html, disable) {
     this.disable = disable;
 }
 
-function style(e) {
+function exec(e) {
     var self = e.data.src;
     var args = e.data.args;
     self.area[0].contentDocument.execCommand(args.cmd, false, args.arg1);
@@ -198,8 +248,32 @@ function style(e) {
 function color(e) {
     var self = e.data.src;
     var args = e.data.args;
-    $("#" + self.id + "-" + args.id + "-html").trigger("click")
-    self.area[0].contentDocument.execCommand(args.cmd, false, $("#" + self.id + "-" + args.id + "-html").val())
+    var color = $("#" + args.id + "-color").val()
+    $("#" + args.id + "-color").trigger("click")
+    exec({
+        data: {
+            src: self,
+            args: {
+                cmd: args.cmd,
+                arg1: color
+            }
+        }
+    });
+}
+
+function font(e) {
+    var self = e.data.src;
+    var args = e.data.args;
+    var font = $("#" + args.id + "-font").val();
+    exec({
+        data: {
+            src: self,
+            args: {
+                cmd: args.cmd,
+                arg1: font
+            }
+        }
+    });
 }
 
 function toggleSourceCode(e) {
@@ -209,14 +283,30 @@ function toggleSourceCode(e) {
     self.source.text(self.area[0].contentDocument.body.innerHTML);
     disablePlugins(self.plugins);
     if(self.submitBtn) {
-        self.submitBtn.toggle()
+        self.submitBtn.toggle();
     }
 }
 
 function disablePlugins(plugins) {
     for(var plugin in plugins) {
         if(plugins[plugin].disable == true) {
-            $("#" + plugins[plugin].id).toggle();
+            $("#plugin-" + plugins[plugin].id).toggle();
         }
     }
+}
+
+function fontList() {
+    var fonts = [
+        "Times Roman",
+        "Times New Roman",
+        "Arial",
+        "Monospace",
+        "Sans-Serif"
+    ];
+    var list = "";
+    for(var i in fonts) {
+        var font = fonts[i];
+        list = list + '<option value="' + font + '">' + font + '</option>';
+    }
+    return list;
 }
