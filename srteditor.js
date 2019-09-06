@@ -15,6 +15,7 @@ function srteditor(area, submitFn) {
         this.bold,
         this.italic,
         this.underline,
+        this.strikeThrough,
         this.orderedList,
         this.unorderedList,
         this.colorText,
@@ -125,22 +126,29 @@ srteditor.prototype.underline = function() {
     }, null, true);
 };
 
+srteditor.prototype.strikeThrough = function() {
+    return new plugin("strike-through", "fa-strikethrough", exec, {
+        cmd: "strikeThrough",
+        arg1: null
+    }, null, true);
+};
+
 srteditor.prototype.unorderedList = function() {
-    return new plugin("UL", "fa-list-ul", exec, {
+    return new plugin("unordered-list", "fa-list-ul", exec, {
         cmd: "insertUnorderedList",
         arg1: "newUL"
     }, null, true);
 };
 
 srteditor.prototype.orderedList = function() {
-    return new plugin("OL", "fa-list-ol", exec, {
+    return new plugin("ordered-list", "fa-list-ol", exec, {
         cmd: "insertOrderedList",
         arg1: "newOL"
     }, null, true);
 };
 
 srteditor.prototype.colorText = function() {
-    var id = "C"
+    var id = "color"
     return new plugin(id, "fa-paint-brush", color, {
         id: id,
         cmd: "foreColor",
@@ -169,7 +177,7 @@ srteditor.prototype.colorText = function() {
 };
 
 srteditor.prototype.highlightText = function() {
-    var id = "H"
+    var id = "highlight"
     return new plugin(id, "fa-highlighter", color, {
         id: id,
         cmd: "hiliteColor",
@@ -198,7 +206,7 @@ srteditor.prototype.highlightText = function() {
 };
 
 srteditor.prototype.font = function() {
-    var id = "F"
+    var id = "font"
     var list = fontList()
     return new plugin(id, "fa-font", font, {
         id: id,
@@ -227,7 +235,7 @@ srteditor.prototype.font = function() {
 };
 
 srteditor.prototype.source = function() {
-    return new plugin("S", "fa-code", toggleSourceCode, null, null, false);
+    return new plugin("source", "fa-code", toggleSourceCode, null, null, false);
 };
 
 function plugin(id, icon, cmd, args, html, disable) {
