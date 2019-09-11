@@ -46,8 +46,6 @@ srteditor.prototype.createToolbar = function() {
     this.toolbar = $("<div>");
     this.toolbar.attr("name", this.id.concat("-toolbar"));
     this.toolbar.attr("id", this.id.concat("-toolbar"));
-    this.toolbar.css("display", "flex");
-    this.toolbar.height(27);
     for(var i = 0; i < this.pluginIds.length; i++) {
         this.registerPlugin(this.pluginIds[i]);
     }
@@ -75,20 +73,28 @@ srteditor.prototype.createSubmitButton = function() {
 srteditor.prototype.registerPlugin = function(p) {
     var self = this;
     var plugin = p();
-    var container = $("<span style='padding-right:10px;'>");
+    var container = $("<span>");
     container.attr("id", "plugin-" + plugin.id)
+    container.css("padding", "5px")
     var btn = $("<span>");
     var icon = $("<i>");
     icon.addClass("fa");
     icon.addClass(plugin.icon);
     btn.append(icon);
     btn.attr("id", plugin.id);
-    btn.height(24);
-    btn.width(24);
     btn.on("click", {
         src: self,
         args: plugin.args
     }, plugin.cmd);
+    icon.on("mouseenter", function(e) {
+        $(e.target).css("outline", "1px solid black")
+        $(e.target).css("cursor", "pointer")
+
+    });
+    icon.on("mouseleave", function(e) {
+        $(e.target).css("outline", "")
+        $(e.target).css("cursor", "")
+    });
     this.plugins[plugin.id] = plugin;
     container.append(btn);
     if(plugin.html != null) {
@@ -103,6 +109,7 @@ srteditor.prototype.registerPlugin = function(p) {
                 for(var event in comp.events) {
                     html.on(event, {
                         src: self,
+                        id: plugin.id,
                         args: plugin.args
                     }, comp.events[event])
                 }
@@ -114,21 +121,21 @@ srteditor.prototype.registerPlugin = function(p) {
 };
 
 srteditor.prototype.bold = function() {
-    return new plugin("B", "fa-bold", exec, {
+    return new plugin("bold", "fa-bold", exec, {
         cmd: "bold",
         arg1: null
     }, null, true);
 };
 
 srteditor.prototype.italic = function() {
-    return new plugin("I", "fa-italic", exec, {
+    return new plugin("italic", "fa-italic", exec, {
         cmd: "italic",
         arg1: null
     }, null, true);
 };
 
 srteditor.prototype.underline = function() {
-    return new plugin("U", "fa-underline", exec, {
+    return new plugin("underline", "fa-underline", exec, {
         cmd: "underline",
         arg1: null
     }, null, true);
@@ -142,16 +149,14 @@ srteditor.prototype.strikeThrough = function() {
 };
 
 srteditor.prototype.superscript = function() {
-    var id = "superscript"
-    return new plugin(id, "fa-superscript", exec, {
+    return new plugin("superscript", "fa-superscript", exec, {
         cmd: "superscript",
         arg1: null
     }, null, true);
 };
 
 srteditor.prototype.subscript = function() {
-    var id = "subscript"
-    return new plugin(id, "fa-subscript", exec, {
+    return new plugin("subscript", "fa-subscript", exec, {
         cmd: "subscript",
         arg1: null
     }, null, true);
@@ -172,9 +177,9 @@ srteditor.prototype.orderedList = function() {
 };
 
 srteditor.prototype.colorText = function() {
-    var id = "color"
-    return new plugin(id, "fa-paint-brush", color, {
-        id: id,
+    var pluginId = "color-text"
+    return new plugin(pluginId, "fa-paint-brush", color, {
+        id: pluginId,
         cmd: "foreColor",
     }, {
         color: {
@@ -182,6 +187,7 @@ srteditor.prototype.colorText = function() {
             events: {
                 "change": function(e) {
                     var self = e.data.src;
+                    var id = e.data.id;
                     var args = e.data.args;
                     var color = $(e.target).val()
                     $("#" + id).first("i").css("color", color)
@@ -201,9 +207,9 @@ srteditor.prototype.colorText = function() {
 };
 
 srteditor.prototype.highlightText = function() {
-    var id = "highlight"
-    return new plugin(id, "fa-highlighter", color, {
-        id: id,
+    var pluginId = "highlight-text"
+    return new plugin(pluginId, "fa-highlighter", color, {
+        id: pluginId,
         cmd: "hiliteColor",
     }, {
         color: {
@@ -212,6 +218,7 @@ srteditor.prototype.highlightText = function() {
                 "change": function(e) {
                     var self = e.data.src;
                     var args = e.data.args;
+                    var id = e.data.id;
                     var color = $(e.target).val()
                     $("#" + id).first("i").css("color", color)
                     exec({
@@ -230,10 +237,10 @@ srteditor.prototype.highlightText = function() {
 };
 
 srteditor.prototype.font = function() {
-    var id = "font"
+    var pluginId = "font"
     var list = fontList()
-    return new plugin(id, "fa-font", value, {
-        id: id,
+    return new plugin(pluginId, "fa-font", value, {
+        id: pluginId,
         cmd: "fontName"
     }, {
         value: {
@@ -242,6 +249,7 @@ srteditor.prototype.font = function() {
                 "change": function(e) {
                     var self = e.data.src;
                     var args = e.data.args;
+                    var id = e.data.id;
                     var font = $("#" + id + "-value").val();
                     exec({
                         data: {
@@ -259,10 +267,10 @@ srteditor.prototype.font = function() {
 };
 
 srteditor.prototype.fontSize = function() {
-    var id = "font-size"
+    var pluginId = "font-size"
     var list = fontSizeList()
-    return new plugin(id, "fa-text-height", value, {
-        id: id,
+    return new plugin(pluginId, "fa-text-height", value, {
+        id: pluginId,
         cmd: "fontSize"
     }, {
         value: {
@@ -271,6 +279,7 @@ srteditor.prototype.fontSize = function() {
                 "change": function(e) {
                     var self = e.data.src;
                     var args = e.data.args;
+                    var id = e.data.id;
                     var font = $("#" + id + "-value").val();
                     exec({
                         data: {
@@ -316,15 +325,16 @@ srteditor.prototype.fullJustify = function() {
 };
 
 srteditor.prototype.link = function() {
-    var id = "link"
-    return new plugin("link", "fa-link", input, {
-        id: id,
+    var pluginId = "link"
+    return new plugin(pluginId, "fa-link", input, {
+        id: pluginId,
         cmd: "createLink"
     }, {
         input: {
             html: '<input placeholder="https://example.com" type="url"/>',
             events: {
-                "change": function() {
+                "change": function(e) {
+                    var id = e.data.id;
                     $("#" + id + "-input").get(0).checkValidity();
                 }
             }
