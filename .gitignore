@@ -12,3 +12,4 @@ package-lock.json
 /website/public
 /website/static/js/srteditor.min.js
 /website/api
+/website/download/srteditor.*
