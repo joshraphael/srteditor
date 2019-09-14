@@ -29,6 +29,7 @@ function srteditor(area, submitFn) {
         this.rightJustify,
         this.fullJustify,
         this.link,
+        this.image,
         this.source
     ];
     this.plugins = {};
@@ -325,7 +326,7 @@ srteditor.prototype.fullJustify = function() {
 };
 
 srteditor.prototype.link = function() {
-    var pluginId = "link"
+    var pluginId = "link";
     return new plugin(pluginId, "fa-link", input, {
         id: pluginId,
         cmd: "createLink"
@@ -339,7 +340,25 @@ srteditor.prototype.link = function() {
                 }
             }
         }
-    }, true)
+    }, true);
+};
+
+srteditor.prototype.image = function() {
+    var pluginId = "image";
+    return new plugin(pluginId, "fa-image", input, {
+        id: pluginId,
+        cmd: "insertImage"
+    }, {
+        input: {
+            html: '<input placeholder="https://example.com/image.jpg" pattern="http[s]?://.*[.](jpg|jgep|png|gif)" type="url">',
+            events: {
+                "change": function(e) {
+                    var id = e.data.id;
+                    $("#" + id + "-input").get(0).checkValidity();
+                }
+            }
+        }
+    }, true);
 };
 
 srteditor.prototype.source = function() {
@@ -459,5 +478,5 @@ function fontSizeList() {
         var size = sizes[i];
         list = list + '<option value="' + size + '">' + size + '</option>';
     }
-    return list
+    return list;
 }
