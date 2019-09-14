@@ -12,6 +12,7 @@ $(function() {
 
 function srteditor(area, submitFn) {
     this.pluginIds = [
+        this.undo,
         this.bold,
         this.italic,
         this.underline,
@@ -121,6 +122,13 @@ srteditor.prototype.registerPlugin = function(p) {
         }
     }
     this.toolbar.append(container);
+};
+
+srteditor.prototype.undo = function() {
+    return new plugin("undo", "fa-undo", exec, {
+        cmd: "undo",
+        arg1: null
+    }, null, true);
 };
 
 srteditor.prototype.bold = function() {
