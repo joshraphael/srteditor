@@ -20,6 +20,7 @@ function srteditor(area, submitFn) {
         this.subscript,
         this.orderedList,
         this.unorderedList,
+        this.code,
         this.colorText,
         this.highlightText,
         this.font,
@@ -175,6 +176,13 @@ srteditor.prototype.orderedList = function() {
     return new plugin("ordered-list", "fa-list-ol", exec, {
         cmd: "insertOrderedList",
         arg1: "newOL"
+    }, null, true);
+};
+
+srteditor.prototype.code = function() {
+    return new plugin("code", "fa-terminal", exec, {
+        cmd: "insertHTML",
+        arg1: "&zwnj;<pre style='background-color:rgba(0, 0, 0, 0.04);border-radius:3px;border:1px solid rgba(0, 0, 0, 0.09);'>//code</pre>&zwnj;"
     }, null, true);
 };
 
@@ -350,7 +358,7 @@ srteditor.prototype.unlink = function() {
         cmd: "unlink",
         arg1: null
     }, null, true);
-}
+};
 
 srteditor.prototype.image = function() {
     var pluginId = "image";
