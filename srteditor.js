@@ -29,6 +29,7 @@ function srteditor(area, submitFn) {
         this.rightJustify,
         this.fullJustify,
         this.link,
+        this.unlink,
         this.image,
         this.source
     ];
@@ -342,6 +343,14 @@ srteditor.prototype.link = function() {
         }
     }, true);
 };
+
+srteditor.prototype.unlink = function() {
+    var pluginId = "unlink";
+    return new plugin(pluginId, "fa-unlink", exec, {
+        cmd: "unlink",
+        arg1: null
+    }, null, true);
+}
 
 srteditor.prototype.image = function() {
     var pluginId = "image";
