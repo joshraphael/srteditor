@@ -15,8 +15,10 @@ else
             echo "Bad port, setting to default: $DEFAULT_PORT"
             PORT=$DEFAULT_PORT
         fi
+    else
+        PORT=$DEFAULT_PORT
     fi
-    bash scripts/meta.sh  > $WEBSITE_API/meta.json
+    bash scripts/meta.sh $PORT > $WEBSITE_API/meta.json
 fi
 cd $WEBSITE
 if [[ $1 != "--deploy" ]]; then

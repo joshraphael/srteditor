@@ -1,6 +1,7 @@
 ---
 layout: "home"
 title: "SRTEditor"
+root_location: "/"
 js:
   - "vendor/{{ site.vendors.js.jquery }}"
   - "loader"

@@ -1,18 +1,11 @@
 {%- if include.header == true -%}
   <script id="loader">
   Loader = {};
+  document.write('<script>const ROOT_LOCATION = "{{ include.root_location }}";<\/script>')
 {%- else -%}
 function Loader() {
-    this.init();
 }
 {% endif %}
-Loader.{%- if include.header == false -%}prototype.{%- endif -%}init = function() {
-    var pathArray = this.removeBlanks( window.location.pathname.split( '/' ) );
-    this.prefix = '';
-    if( pathArray.length && pathArray[0] === '{{ include.project }}' ) {
-        this.prefix = '/{{ include.project }}';
-    };
-};
 
 Loader.{%- if include.header == false -%}prototype.{%- endif -%}removeBlanks = function( arr ) {
     var ret = [];
@@ -36,7 +29,7 @@ Loader.loadResources = function() {
 };
 
 Loader.loadFavicon = function() {
-    document.write( '<link rel="shortcut icon" href="' + this.prefix + '/static/img/ico/favicon.ico"></link>' );
+    document.write( '<link rel="shortcut icon" href="' + ROOT_LOCATION + 'static/img/ico/favicon.ico"></link>' );
 };
 
 {%- if include.css -%}
@@ -45,7 +38,7 @@ Loader.loadCss = function() {
     if( txt.length ) {
         var files = txt.split( ' ' );
         for( var i = 0; i < files.length; i++ ) {
-            document.write( '<link rel="stylesheet" type="text/css" href="' + this.prefix + '/static/css/' + files[i] + '.css"></link>' );
+            document.write( '<link rel="stylesheet" type="text/css" href="' + ROOT_LOCATION + 'static/css/' + files[i] + '.css"></link>' );
         }
     };
 };
@@ -56,12 +49,11 @@ Loader.loadJs = function() {
     if( txt.length ) {
         var files = '{{ include.js }}'.split( ' ' );
         for( var i = 0; i < files.length; i++ ) {
-            document.write( '<script type="text/javascript" src="' + this.prefix + '/static/js/' + files[i] + '.js"><\/script>' );
+            document.write( '<script type="text/javascript" src="' + ROOT_LOCATION + 'static/js/' + files[i] + '.js"><\/script>' );
         }
     }
 };
 {% endif %}
-Loader.init();
 Loader.loadResources();
 loaderJs = document.getElementById( 'loader' );
 loaderJs.parentElement.removeChild( loaderJs );
@@ -72,7 +64,7 @@ delete window.loaderJs;
 Loader.prototype.fixResources = function() {
     var self = this;
     $( '.loader' ).each( function() {
-        $( this ).attr( $( this ).attr( 'data-attr' ),  self.prefix + $( this ).attr( 'data-url' ) );
+        $( this ).attr( $( this ).attr( 'data-attr' ), ROOT_LOCATION + $( this ).attr( 'data-url' ) );
         $( this ).removeAttr( 'data-url' );
         $( this ).removeAttr( 'data-attr' );
         if( this.classList.length === 1 ) {

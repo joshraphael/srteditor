@@ -3,7 +3,7 @@
   <head>
     {% assign page_css = page.css | join: " " | flatten %}
     {% assign page_js = page.js | join: " " | flatten %}
-    {% include header.html project=site.project css=page_css js=page_js title=page.title %}
+    {% include header.html project=site.project css=page_css js=page_js title=page.title root_location=page.root_location %}
   </head>
   <body>
     {% include navigation.html %}
