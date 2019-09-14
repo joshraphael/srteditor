@@ -13,6 +13,7 @@ $(function() {
 function srteditor(area, submitFn) {
     this.pluginIds = [
         this.undo,
+        this.redo,
         this.bold,
         this.italic,
         this.underline,
@@ -127,6 +128,13 @@ srteditor.prototype.registerPlugin = function(p) {
 srteditor.prototype.undo = function() {
     return new plugin("undo", "fa-undo", exec, {
         cmd: "undo",
+        arg1: null
+    }, null, true);
+};
+
+srteditor.prototype.redo = function() {
+    return new plugin("redo", "fa-redo", exec, {
+        cmd: "redo",
         arg1: null
     }, null, true);
 };
