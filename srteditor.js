@@ -38,7 +38,7 @@ function srteditor(area, submitFn) {
     ];
     this.plugins = {};
     this.area = $(area);
-    this.submitFn = submitFn
+    this.submitFn = submitFn;
     this.id = this.area.attr("id");
     this.area.width("100%");
     this.area[0].contentDocument.designMode = "on";
@@ -46,6 +46,7 @@ function srteditor(area, submitFn) {
     this.createToolbar();
     this.createSourceBox();
     this.createSubmitButton();
+    this.styleDocument();
 }
 
 srteditor.prototype.createToolbar = function() {
@@ -126,6 +127,30 @@ srteditor.prototype.registerPlugin = function(p) {
     this.toolbar.append(container);
 };
 
+srteditor.prototype.styleDocument = function() {
+    var style = '\
+    <style type="text/css" id="srteditor-style">\
+      .srteditor-code {\
+        overflow-wrap: break-word;\
+        white-space: pre-wrap;\
+        background-color: rgba(0, 0, 0, 0.04);\
+        border-radius: 3px;\
+        border: 1px solid rgba(0, 0, 0, 0.09);\
+      }\
+      .srteditor-code::before {\
+        counter-reset: listing;\
+      }\
+      .srteditor-code div {\
+        counter-increment: listing;\
+      }\
+      .srteditor-code div::before {\
+        content: counter(listing) ". ";\
+        display: inline-block;\
+      }\
+    </style>'
+    $(this.area[0].contentDocument.body).append(style);
+}
+
 srteditor.prototype.undo = function() {
     return new plugin("undo", "fa-undo", exec, {
         cmd: "undo",
@@ -199,7 +224,7 @@ srteditor.prototype.orderedList = function() {
 srteditor.prototype.code = function() {
     return new plugin("code", "fa-terminal", exec, {
         cmd: "insertHTML",
-        arg1: "&zwnj;<pre style='background-color:rgba(0, 0, 0, 0.04);border-radius:3px;border:1px solid rgba(0, 0, 0, 0.09);'><div>&zwnj;"
+        arg1: "&zwnj;<pre class='srteditor-code'><div>&zwnj;"
     }, null, true);
 };
 
