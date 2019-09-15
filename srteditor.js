@@ -42,6 +42,7 @@ function srteditor(area, submitFn) {
     this.id = this.area.attr("id");
     this.area.width("100%");
     this.area[0].contentDocument.designMode = "on";
+    this.area[0].contentDocument.execCommand("styleWithCSS", false, "true");
     this.createToolbar();
     this.createSourceBox();
     this.createSubmitButton();
@@ -198,7 +199,7 @@ srteditor.prototype.orderedList = function() {
 srteditor.prototype.code = function() {
     return new plugin("code", "fa-terminal", exec, {
         cmd: "insertHTML",
-        arg1: "&zwnj;<pre style='background-color:rgba(0, 0, 0, 0.04);border-radius:3px;border:1px solid rgba(0, 0, 0, 0.09);'>//code</pre>&zwnj;"
+        arg1: "&zwnj;<pre style='background-color:rgba(0, 0, 0, 0.04);border-radius:3px;border:1px solid rgba(0, 0, 0, 0.09);'><div>&zwnj;"
     }, null, true);
 };
 
