@@ -34,6 +34,7 @@ function srteditor(area, submitFn) {
         this.link,
         this.unlink,
         this.image,
+        this.emoji,
         this.source
     ];
     this.plugins = {};
@@ -68,20 +69,20 @@ srteditor.prototype.createSourceBox = function() {
 srteditor.prototype.createSubmitButton = function() {
     if(this.submitFn && this.submitFn instanceof Function) {
         var self = this;
-        this.submitBtn = $("<button>")
-        this.submitBtn.html("Submit")
-        this.submitBtn.insertAfter(this.area)
+        this.submitBtn = $("<button>");
+        this.submitBtn.html("Submit");
+        this.submitBtn.insertAfter(this.area);
         this.submitBtn.on("click", {
             doc: self.area[0].contentDocument
-        }, this.submitFn)
+        }, this.submitFn);
     }
-}
+};
 
 srteditor.prototype.registerPlugin = function(p) {
     var self = this;
     var plugin = p();
     var container = $("<span>");
-    container.attr("id", "plugin-" + plugin.id)
+    container.attr("id", "plugin-" + plugin.id);
     container.css("padding", "5px")
     var btn = $("<span>");
     var icon = $("<i>");
@@ -94,34 +95,34 @@ srteditor.prototype.registerPlugin = function(p) {
         args: plugin.args
     }, plugin.cmd);
     icon.on("mouseenter", function(e) {
-        $(e.target).css("outline", "1px solid black")
-        $(e.target).css("cursor", "pointer")
+        $(e.target).css("outline", "1px solid black");
+        $(e.target).css("cursor", "pointer");
 
     });
     icon.on("mouseleave", function(e) {
-        $(e.target).css("outline", "")
-        $(e.target).css("cursor", "")
+        $(e.target).css("outline", "");
+        $(e.target).css("cursor", "");
     });
     this.plugins[plugin.id] = plugin;
     container.append(btn);
     if(plugin.html != null) {
         for(var component in plugin.html) {
-            var comp = plugin.html[component]
-            var block = $("<span>")
-            var html = $(comp.html)
-            html.attr("id", plugin.id + "-" + component)
-            block.append(html)
-            block.attr("id", self.id + "-" + plugin.id + "-html")
+            var comp = plugin.html[component];
+            var block = $("<span>");
+            var html = $(comp.html);
+            html.attr("id", plugin.id + "-" + component);
+            block.append(html);
+            block.attr("id", self.id + "-" + plugin.id + "-html");
             if(comp.events != null) {
                 for(var event in comp.events) {
                     html.on(event, {
                         src: self,
                         id: plugin.id,
                         args: plugin.args
-                    }, comp.events[event])
+                    }, comp.events[event]);
                 }
             }
-            container.append(block)
+            container.append(block);
         }
     }
     this.toolbar.append(container);
@@ -147,9 +148,9 @@ srteditor.prototype.styleDocument = function() {
         content: counter(listing) ". ";\
         display: inline-block;\
       }\
-    </style>'
+    </style>';
     $(this.area[0].contentDocument.body).append(style);
-}
+};
 
 srteditor.prototype.undo = function() {
     return new plugin("undo", "fa-undo", exec, {
@@ -288,9 +289,23 @@ srteditor.prototype.highlightText = function() {
     }, true);
 };
 
+srteditor.prototype.emoji = function() {
+    var pluginId = "emoji";
+    var list = emojiList();
+    return new plugin(pluginId, "fa-icons", value, {
+        id: pluginId,
+        cmd: "insertHTML"
+    }, {
+        value: {
+            html: '<select>' + list + '</select>',
+            events: null
+        }
+    }, true);
+};
+
 srteditor.prototype.font = function() {
-    var pluginId = "font"
-    var list = fontList()
+    var pluginId = "font";
+    var list = fontList();
     return new plugin(pluginId, "fa-font", value, {
         id: pluginId,
         cmd: "fontName"
@@ -442,8 +457,8 @@ function exec(e) {
 function color(e) {
     var self = e.data.src;
     var args = e.data.args;
-    var color = $("#" + args.id + "-color").val()
-    $("#" + args.id + "-color").trigger("click")
+    var color = $("#" + args.id + "-color").val();
+    $("#" + args.id + "-color").trigger("click");
     exec({
         data: {
             src: self,
@@ -474,7 +489,7 @@ function input(e) {
     var self = e.data.src;
     var args = e.data.args;
     if( $("#" + args.id + "-input").get(0).checkValidity() ) {
-        var val = $("#" + args.id + "-input").val()
+        var val = $("#" + args.id + "-input").val();
         exec({
             data: {
                 src: self,
@@ -536,6 +551,81 @@ function fontSizeList() {
     for(var i in sizes) {
         var size = sizes[i];
         list = list + '<option value="' + size + '">' + size + '</option>';
+    }
+    return list;
+}
+
+function emojiList() {
+    var emojis = [
+        {
+            icon: "&#x1F600;",
+            name: ":grinning:"
+        },
+        {
+            icon: "&#x1F601;",
+            name: ":grin:"
+        },
+        {
+            icon: "&#x1F602;",
+            name: ":joy:"
+        },
+        {
+            icon: "&#x1F603;",
+            name: ":smiley:"
+        },
+        {
+            icon: "&#x1F604;",
+            name: ":smile:"
+        },
+        {
+            icon: "&#x1F605;",
+            name: ":sweat_smile:"
+        },
+        {
+            icon: "&#x1F606;",
+            name: ":laughing:"
+        },
+        {
+            icon: "&#x1F607;",
+            name: ":innocent:"
+        },
+        {
+            icon: "&#x1F608;",
+            name: ":smiling_imp:"
+        },
+        {
+            icon: "&#x1F609;",
+            name: ":wink:"
+        },
+        {
+            icon: "&#x1F60A;",
+            name: ":blush:"
+        },
+        {
+            icon: "&#x1F60B;",
+            name: ":yum:"
+        },
+        {
+            icon: "&#x1F60C;",
+            name: ":relieved:"
+        },
+        {
+            icon: "&#x1F60D;",
+            name: ":heart_eyes:"
+        },
+        {
+            icon: "&#x1F60E;",
+            name: ":sunglasses:"
+        },
+        {
+            icon: "&#x1F60F;",
+            name: ":smirk:"
+        }
+    ];
+    var list = "";
+    for(var i in emojis) {
+        var emoji = emojis[i];
+        list = list + '<option value="' + emoji.icon + '">' + emoji.name + " " + emoji.icon + '</option>';
     }
     return list;
 }
