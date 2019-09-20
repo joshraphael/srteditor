@@ -555,77 +555,54 @@ function fontSizeList() {
     return list;
 }
 
+function emoji(code, name) {
+    this.code = code;
+    this.name = name;
+}
+
+function initEmoji(code, name) {
+    return new emoji(code, name);
+}
+
 function emojiList() {
     var emojis = [
-        {
-            icon: "&#x1F600;",
-            name: ":grinning:"
-        },
-        {
-            icon: "&#x1F601;",
-            name: ":grin:"
-        },
-        {
-            icon: "&#x1F602;",
-            name: ":joy:"
-        },
-        {
-            icon: "&#x1F603;",
-            name: ":smiley:"
-        },
-        {
-            icon: "&#x1F604;",
-            name: ":smile:"
-        },
-        {
-            icon: "&#x1F605;",
-            name: ":sweat_smile:"
-        },
-        {
-            icon: "&#x1F606;",
-            name: ":laughing:"
-        },
-        {
-            icon: "&#x1F607;",
-            name: ":innocent:"
-        },
-        {
-            icon: "&#x1F608;",
-            name: ":smiling_imp:"
-        },
-        {
-            icon: "&#x1F609;",
-            name: ":wink:"
-        },
-        {
-            icon: "&#x1F60A;",
-            name: ":blush:"
-        },
-        {
-            icon: "&#x1F60B;",
-            name: ":yum:"
-        },
-        {
-            icon: "&#x1F60C;",
-            name: ":relieved:"
-        },
-        {
-            icon: "&#x1F60D;",
-            name: ":heart_eyes:"
-        },
-        {
-            icon: "&#x1F60E;",
-            name: ":sunglasses:"
-        },
-        {
-            icon: "&#x1F60F;",
-            name: ":smirk:"
-        }
+        initEmoji("&#x1F600;", ":grinning:"),
+        initEmoji("&#x1F601;", ":grin:"),
+        initEmoji("&#x1F602;", ":joy:"),
+        initEmoji("&#x1F603;", ":smiley:"),
+        initEmoji("&#x1F604;", ":smile:"),
+        initEmoji("&#x1F605;", ":sweat_smile:"),
+        initEmoji("&#x1F606;", ":laughing:"),
+        initEmoji("&#x1F607;", ":innocent:"),
+        initEmoji("&#x1F608;", ":smiling_imp:"),
+        initEmoji("&#x1F609;", ":wink:"),
+        initEmoji("&#x1F60A;", ":blush:"),
+        initEmoji("&#x1F60B;", ":yum:"),
+        initEmoji("&#x1F60C;", ":relieved:"),
+        initEmoji("&#x1F60D;", ":heart_eyes:"),
+        initEmoji("&#x1F60E;", ":sunglasses:"),
+        initEmoji("&#x1F60F;", ":smirk:"),
+        initEmoji("&#x1F610;", ":neutral_face:"),
+        initEmoji("&#x1F611;", ":expressionless:"),
+        initEmoji("&#x1F612;", ":unamused:"),
+        initEmoji("&#x1F613;", ":sweat:"),
+        initEmoji("&#x1F614;", ":pensive:"),
+        initEmoji("&#x1F615;", ":confused:"),
+        initEmoji("&#x1F616;", ":confounded:"),
+        initEmoji("&#x1F617;", ":kissing:"),
+        initEmoji("&#x1F618;", ":kissing_heart:"),
+        initEmoji("&#x1F619;", ":kissing_smiling_eyes:"),
+        initEmoji("&#x1F61A;", ":kissing_closed_eyes:"),
+        initEmoji("&#x1F61B;", ":stuck_out_tongue:"),
+        initEmoji("&#x1F61C;", ":stuck_out_tongue_winking_eye:"),
+        initEmoji("&#x1F61D;", ":stuck_out_tongue_closed_eyes:"),
+        initEmoji("&#x1F61E;", ":disappointed:"),
+        initEmoji("&#x1F61F;", ":worried:")
     ];
     var list = "";
     for(var i in emojis) {
         var emoji = emojis[i];
-        list = list + '<option value="' + emoji.icon + '">' + emoji.name + " " + emoji.icon + '</option>';
+        list = list + '<option value="' + emoji.code + '">' + emoji.name + " " + emoji.code + '</option>';
     }
     return list;
 }
