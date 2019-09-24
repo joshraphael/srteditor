@@ -35,6 +35,7 @@ function srteditor(area, submitFn) {
         this.unlink,
         this.image,
         this.emoji,
+        this.email,
         this.source
     ];
     this.plugins = {};
@@ -435,6 +436,23 @@ srteditor.prototype.image = function() {
     }, true);
 };
 
+srteditor.prototype.email = function() {
+    var pluginId = "email";
+    return new plugin(pluginId, "fa-at", link, {
+        id: pluginId
+    }, {
+        link: {
+            html: '<a style="display:none;"></a>',
+            events: {
+                "click": function(e) {
+                    var html = e.data.src.area[0].contentDocument.body.innerHTML;
+                    $(e.target).attr("href", "mailto:?subject=SRTEditor Code&body=" + html);
+                }
+            }
+        }
+    }, true);
+}
+
 srteditor.prototype.source = function() {
     return new plugin("source", "fa-code", toggleSourceCode, null, null, false);
 };
@@ -500,6 +518,11 @@ function input(e) {
             }
         });
     }
+}
+
+function link(e) {
+    var args = e.data.args;
+    $("#" + args.id + "-link")[0].click();
 }
 
 function toggleSourceCode(e) {
