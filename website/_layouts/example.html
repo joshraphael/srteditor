@@ -4,8 +4,10 @@ layout: default
 {% include navigation.html %}
 <script>
   $(document).ready(function () {
-    $("#srteditor").srteditor(function(e) {
-      $("#srteditor-code-submit").text(e.data.doc.body.innerHTML)
+    $("#srteditor").srteditor({
+      "Submit": function (e) {
+        $("#srteditor-code-submit").text(e.data.doc.body.innerHTML);
+      }
     });
   });
 </script>

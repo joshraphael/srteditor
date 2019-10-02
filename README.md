@@ -26,8 +26,10 @@ Add an `iframe` to your html and create a selector to load the srteditor when th
     <script src="srteditor.min.js"></script>
     <script>
       $(document).ready(function () {
-        $("#srteditor").srteditor(function(e) {
-          console.log(e.data.doc.body.innerHTML)
+        $("#srteditor").srteditor({
+          "Submit": function(e) {
+            console.log(e.data.doc.body.innerHTML);
+          }
         });
       });
     </script>
