@@ -30,7 +30,7 @@ Add an `iframe` to your html and create a selector to load the srteditor when th
           "Submit": function(e) {
             console.log(e.data.doc.body.innerHTML);
           }
-        });
+        }, "<h3>This is a test</h3>");
       });
     </script>
   </head>

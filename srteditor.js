@@ -1,16 +1,16 @@
 $(function () {
     var SRTEditors = [];
-    $.fn.srteditor = function (btnFns) {
+    $.fn.srteditor = function (btnFns, initHTML) {
         this.each(function (i, e) {
             if ($(e).is("iframe")) {
-                var editor = new srteditor(e, btnFns);
+                var editor = new srteditor(e, btnFns, initHTML);
                 SRTEditors.push(editor);
             }
         });
     };
 });
 
-function srteditor(area, btnFns) {
+function srteditor(area, btnFns, initHTML) {
     this.pluginIds = [
         this.undo,
         this.redo,
@@ -49,6 +49,7 @@ function srteditor(area, btnFns) {
     this.createToolbar();
     this.createSourceBox();
     this.createButtons();
+    this.initializeHTML(initHTML);
     this.styleDocument();
 }
 
@@ -130,6 +131,12 @@ srteditor.prototype.registerPlugin = function (p) {
         }
     }
     this.toolbar.append(container);
+};
+
+srteditor.prototype.initializeHTML = function (initHTML) {
+    if (initHTML) {
+        $(this.area[0].contentDocument.body).append(initHTML);
+    }
 };
 
 srteditor.prototype.styleDocument = function () {
