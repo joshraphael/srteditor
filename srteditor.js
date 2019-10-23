@@ -541,8 +541,10 @@ function toggleSourceCode(e) {
     self.source.toggle();
     self.source.text(self.area[0].contentDocument.body.innerHTML);
     disablePlugins(self.plugins);
-    if (self.submitBtn) {
-        self.submitBtn.toggle();
+    if (self.btns) {
+        for (var k in self.btns) {
+            self.btns[k].toggle();
+        }
     }
 }
 
