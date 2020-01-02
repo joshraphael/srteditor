@@ -70,15 +70,18 @@ srteditor.prototype.createSourceBox = function () {
 };
 
 srteditor.prototype.createButtons = function () {
+    var self = this;
     if (this.btnFns && this.btnFns instanceof Object) {
         for (var name in this.btnFns) {
-            var self = this;
             this.btns[name] = $("<button>");
             this.btns[name].html(name);
             this.btns[name].insertAfter(this.area);
             this.btns[name].on("click", {
                 doc: self.area[0].contentDocument
-            }, this.btnFns[name]);
+            }, function(e) {
+                self.ensureStyle();
+                self.btnFns[name](e);
+            });
         }
     }
 };
@@ -98,7 +101,10 @@ srteditor.prototype.registerPlugin = function (p) {
     btn.on("click", {
         src: self,
         args: plugin.args
-    }, plugin.cmd);
+    }, function(e) {
+        self.ensureStyle();
+        plugin.cmd(e);
+    });
     icon.on("mouseenter", function (e) {
         $(e.target).css("outline", "1px solid black");
         $(e.target).css("cursor", "pointer");
@@ -124,7 +130,10 @@ srteditor.prototype.registerPlugin = function (p) {
                         src: self,
                         id: plugin.id,
                         args: plugin.args
-                    }, comp.events[event]);
+                    }, function(e) {
+                        self.ensureStyle();
+                        comp.events[event](e)
+                    });
                 }
             }
             container.append(block);
@@ -161,6 +170,12 @@ srteditor.prototype.styleDocument = function () {
       }\
     </style>';
     $(this.area[0].contentDocument.body).append(style);
+};
+
+srteditor.prototype.ensureStyle = function() {
+    if ($(this.area[0].contentDocument.body).find("#srteditor-style").length == 0) { // if the style block got deleted
+        this.styleDocument();
+    }
 };
 
 srteditor.prototype.undo = function () {
