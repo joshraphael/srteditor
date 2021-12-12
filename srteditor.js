@@ -34,6 +34,7 @@ function srteditor(area, btnFns, initHTML) {
         this.link,
         this.unlink,
         this.image,
+        this.uploadImage,
         this.emoji,
         this.email,
         this.source
@@ -428,7 +429,11 @@ srteditor.prototype.link = function () {
             events: {
                 "change": function (e) {
                     var id = e.data.id;
-                    $("#" + id + "-input").get(0).checkValidity();
+                    var val = "";
+                    if($("#" + id + "-input").get(0).checkValidity()) {
+                        val = $("#" + id + "-input").val()
+                    }
+                    $("#" + id + "-input").attr("data-text", val)
                 }
             }
         }
@@ -454,11 +459,41 @@ srteditor.prototype.image = function () {
             events: {
                 "change": function (e) {
                     var id = e.data.id;
-                    $("#" + id + "-input").get(0).checkValidity();
+                    var val = "";
+                    if($("#" + id + "-input").get(0).checkValidity()) {
+                        val = $("#" + id + "-input").val()
+                    }
+                    $("#" + id + "-input").attr("data-text", val)
                 }
             }
         }
     }, true);
+};
+
+srteditor.prototype.uploadImage = function () {
+    var pluginId = "uploadImage"
+    return new plugin(pluginId, "fa-upload", input, {
+        id: pluginId,
+        cmd: "insertImage"
+    }, {
+        input: {
+            html: '<input type="file" accept="image/png, image/jpeg">',
+            events: {
+                "change": function(e) {
+                    var id = e.data.id;
+                    if($("#" + id + "-input").get(0).checkValidity()) {
+                        var reader = new FileReader();
+                        reader.readAsDataURL($("#" + id + "-input").get(0).files[0]);
+                        reader.onload = function () {
+                            $("#" + id + "-input").attr("data-text", reader.result);
+                        }
+                    } else {
+                        $("#" + id + "-input").attr("data-text", "");
+                    }
+                }
+            }
+        }
+    }, true)
 };
 
 srteditor.prototype.email = function () {
@@ -532,7 +567,7 @@ function input(e) {
     var self = e.data.src;
     var args = e.data.args;
     if ($("#" + args.id + "-input").get(0).checkValidity()) {
-        var val = $("#" + args.id + "-input").val();
+        var val = $("#" + args.id + "-input").attr("data-text");
         exec({
             data: {
                 src: self,

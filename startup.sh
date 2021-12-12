@@ -35,5 +35,5 @@ bundle install
 if [[ $1 == "--deploy" ]]; then
     bundle exec jekyll build -d $DIR/public
 else
-    bundle exec jekyll serve --port $PORT
+    bundle exec jekyll serve --host 0.0.0.0 --port $PORT
 fi
