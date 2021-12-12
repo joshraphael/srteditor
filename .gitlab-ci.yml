@@ -15,16 +15,8 @@ minify:
   script:
     - bash scripts/minify.sh
 
-github:
-  image: debian:stable
-  stage: mirror
-  only:
-    - master
-  script:
-    - bash scripts/github.sh
-
 pages:
-  image: ruby:2.3
+  image: ruby:2.6
   stage: deploy
   variables:
     JEKYLL_ENV: production
