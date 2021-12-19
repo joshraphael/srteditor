@@ -478,7 +478,7 @@ srteditor.prototype.uploadImage = function () {
         cmd: "insertImage"
     }, {
         input: {
-            html: '<input type="file" accept="image/png, image/jpeg">',
+            html: '<input type="file" accept="image/png, image/jpeg, image/jpg, image/gif">',
             events: {
                 "change": function(e) {
                     var id = e.data.id;
