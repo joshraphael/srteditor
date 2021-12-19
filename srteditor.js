@@ -80,8 +80,9 @@ srteditor.prototype.createButtons = function () {
             this.btns[name].on("click", {
                 doc: self.area[0].contentDocument
             }, function(e) {
+                var nm = $(this).html()
                 self.ensureStyle();
-                self.btnFns[name](e);
+                self.btnFns[nm](e);
             });
         }
     }
