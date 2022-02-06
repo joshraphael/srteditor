@@ -39,6 +39,7 @@ function srteditor(area, btnFns, initHTML) {
         this.email,
         this.source
     ];
+    this.showSource = false;
     this.plugins = {};
     this.btns = {};
     this.area = $(area);
@@ -65,8 +66,9 @@ srteditor.prototype.createToolbar = function () {
 };
 
 srteditor.prototype.createSourceBox = function () {
-    this.source = $("<code>");
+    this.source = $("<textarea>");
     this.source.insertAfter(this.area);
+    this.source.width("99%");
     this.source.toggle();
 };
 
@@ -588,9 +590,14 @@ function link(e) {
 
 function toggleSourceCode(e) {
     var self = e.data.src;
+    self.showSource = !self.showSource;
     self.area.toggle();
     self.source.toggle();
-    self.source.text(self.area[0].contentDocument.body.innerHTML);
+    if( self.showSource ) {
+        self.source[0].value = self.area[0].contentDocument.body.innerHTML;
+    } else {
+        self.area[0].contentDocument.body.innerHTML = $(self.source).val()
+    }
     disablePlugins(self.plugins);
     if (self.btns) {
         for (var k in self.btns) {
