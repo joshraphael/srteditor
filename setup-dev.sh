@@ -14,11 +14,6 @@ if [ ! -f ".SETUP" ]; then
         error "Could not install uglify-js"
     fi
     success "Installed uglify-js"
-    npm install -g eslint
-    if [ $? -ne 0 ]; then
-        error "Could not install ESLint"
-    fi
-    success "Installed ESLint"
     cp $DIR/scripts/setup.sh $DIR/.git/hooks
     if [ $? -ne 0 ]; then
         error "Could not copy setup script into hooks"

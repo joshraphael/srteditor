@@ -4,13 +4,4 @@ package-lock.json
 .eslintrc.yml
 .eslintrc.js
 .SETUP
-/public
 /minify_test
-/website/Gemfile.lock
-/website/.sass-cache
-/website/.jekyll-cache
-/website/_site
-/website/public
-/website/static/js/srteditor.min.js
-/website/api
-/website/download/srteditor.*

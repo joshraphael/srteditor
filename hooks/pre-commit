@@ -9,11 +9,6 @@ if [ $? -ne 0 ]; then
 fi
 success "Sourced setup script"
 if [ ! -f ".SETUP" ]; then
-    npm install -g eslint
-    if [ $? -ne 0 ]; then
-        error "Could not install ESLint"
-    fi
-    success "Installed ESLint"
     npm install -g uglify-js
     if [ $? -ne 0 ]; then
         error "Could not install uglify-js"
@@ -26,10 +21,6 @@ if [ ! -f srteditor.js ]; then
     error "srteditor.js does not exist"
 fi
 success "srteditor.js exists"
-eslint srteditor.js
-if [ $? -ne 0 ]; then
-    error "Could not lint srteditor.js"
-fi
 uglifyjs srteditor.js > srteditor.min.js
 if [ $? -ne 0 ]; then
     error "Could not minify srteditor.js"
