@@ -4,7 +4,7 @@
 
 [![Size](https://img.shields.io/github/repo-size/joshraphael/srteditor)](https://github.com/joshraphael/srteditor/archive/master.zip) [![License](https://img.shields.io/github/license/joshraphael/srteditor)](https://choosealicense.com/licenses/mit/) [![Language count](https://img.shields.io/github/languages/count/joshraphael/srteditor)](https://gitlab.com/joshraphael/srteditor/graphs/master/charts)
 
-Creates a text box that can be used to render rich text and export as html.
+Creates a WYSIWYG text box that can be used to render rich text and export as html.
 
 This project uses the following packages:
 * [jQuery](http://jquery.com) -- Easy JavaScript selectors
@@ -49,4 +49,3 @@ bash setup-dev.sh
 
 These tools help:
 - minify
-- lint
