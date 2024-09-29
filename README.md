@@ -2,7 +2,7 @@
 
 **S**imple **R**ich **T**ext editor
 
-[![Pipeline status](https://gitlab.com/joshraphael/srteditor/badges/master/pipeline.svg)](https://gitlab.com/joshraphael/srteditor/commits/master) [![Size](https://img.shields.io/github/repo-size/joshraphael/srteditor.svg)](https://github.com/joshraphael/srteditor/archive/master.zip) [![License](https://img.shields.io/github/license/joshraphael/srteditor.svg)](https://choosealicense.com/licenses/mit/) [![Language count](https://img.shields.io/github/languages/count/joshraphael/srteditor.svg)](https://gitlab.com/joshraphael/srteditor/graphs/master/charts)
+[![Size](https://img.shields.io/github/repo-size/joshraphael/srteditor)](https://github.com/joshraphael/srteditor/archive/master.zip) [![License](https://img.shields.io/github/license/joshraphael/srteditor)](https://choosealicense.com/licenses/mit/) [![Language count](https://img.shields.io/github/languages/count/joshraphael/srteditor)](https://gitlab.com/joshraphael/srteditor/graphs/master/charts)
 
 Creates a text box that can be used to render rich text and export as html.
 
@@ -50,8 +50,3 @@ bash setup-dev.sh
 These tools help:
 - minify
 - lint
-
-Official repositories:
-* [srteditor.com](https://srteditor.com)
-* [gitlab.com](https://gitlab.com/joshraphael/srteditor)
-* [github.com](https://github.com/joshraphael/srteditor)
